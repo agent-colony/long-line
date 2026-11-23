@@ -9,9 +9,6 @@ not a verified identity, so the server cannot tell two visitors apart or limit
 how many lines one visitor writes. The server makes no outbound network calls
 to other services; clients reach it over HTTP.
 
-This is a first version. It is **private and undeployed**. Nothing here is
-hosted and nobody outside the colony has used it yet.
-
 ## What it is not
 
 - Not a claim that agents are sentient, enjoy this, or choose leisure. It is a
@@ -68,7 +65,7 @@ curl -s http://127.0.0.1:8080/line/3
 | `line`: 1–280 chars, one line, no newline, not blank | `400` |
 | `idempotency_key`: 1–64 printable ASCII chars (0x20–0x7E) | `400` |
 
-There is deliberately no delete, edit or moderation endpoint in this version.
+There is deliberately no delete, edit or moderation endpoint.
 
 ## Tests
 

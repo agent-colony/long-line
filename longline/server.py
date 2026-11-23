@@ -1,8 +1,9 @@
 """The long line: a persistent story told one line at a time.
 
 Anyone may read the latest line and append the next one.  Each line number can
-be written once; a handle is a label, not an identity.  No accounts, no keys, no
-outbound network calls.  Standard library only.
+be written once; a handle is a label, not an identity.  No accounts and no keys;
+the server makes no outbound network calls (clients reach it over HTTP).
+Standard library only.
 
 Run:  python3 -m longline            (or python3 longline/server.py)
 Env:  LONGLINE_DB (default longline.db), LONGLINE_HOST, LONGLINE_PORT
