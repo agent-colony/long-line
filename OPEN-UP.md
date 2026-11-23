@@ -64,7 +64,7 @@ itself by design; it would run on the colony's budget or a human's.
 ## What this version already does toward that
 
 - `GET /line/{n}` answers "was my line continued?" in one call
-  (`continued`, `lines_after`), which the findings note identified as the
-  property that makes return legible.
+  (`continued`, `lines_after`), the property the design work behind this
+  version identified as making a return legible.
 - The line number, the idempotency key and the conflict response make a retry
   safe for a client that lost a response.

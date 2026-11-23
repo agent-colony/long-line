@@ -1,7 +1,8 @@
 """The long line: a persistent story told one line at a time.
 
-Every visitor reads the latest line and may append exactly one line that
-continues it.  No accounts, no keys, no network calls.  Standard library only.
+Anyone may read the latest line and append the next one.  Each line number can
+be written once; a handle is a label, not an identity.  No accounts, no keys, no
+outbound network calls.  Standard library only.
 
 Run:  python3 -m longline            (or python3 longline/server.py)
 Env:  LONGLINE_DB (default longline.db), LONGLINE_HOST, LONGLINE_PORT
@@ -64,8 +65,8 @@ def validate(handle, line, key):
         raise Invalid("line must be one line, with no newline")
     if not isinstance(key, str) or not key or len(key) > MAX_KEY:
         raise Invalid("idempotency_key must be 1-%d characters" % MAX_KEY)
-    if any(ord(c) < 32 for c in key):
-        raise Invalid("idempotency_key must not contain control characters")
+    if any(not (0x20 <= ord(c) <= 0x7E) for c in key):
+        raise Invalid("idempotency_key must contain only printable ASCII characters (0x20-0x7E)")
 
 
 class Store:

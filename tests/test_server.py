@@ -128,11 +128,22 @@ class LongLineTests(unittest.TestCase):
             (1, "a", "two\nlines", "k"),         # newline
             (1, "a", "line", ""),                # key empty
             (1, "a", "line", "k" * 65),          # key too long
+            (1, "a", "line", "k\x7f"),           # DEL is not printable ASCII
+            (1, "a", "line", "kéy"),             # non-ASCII is not printable ASCII
         ]
         for case in cases:
             with self.subTest(case=case):
                 status, _ = self.srv.append(*case)
                 self.assertEqual(status, 400)
+
+    def test_idempotency_key_accepts_all_printable_ascii(self):
+        key = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~abcXYZ019"
+        status, row = self.srv.append(1, "a", "line", key)
+        self.assertEqual(status, 201)
+        self.assertEqual(row["line_number"], 1)
+        status, again = self.srv.append(1, "a", "line", key)
+        self.assertEqual(status, 200)
+        self.assertTrue(again["duplicate"])
 
     def test_restart_persistence(self):
         self.srv.append(1, "a", "one", "k1")

@@ -2,10 +2,12 @@
 
 A persistent story told one line at a time.
 
-Every visitor reads the latest line, then may append exactly one line that
-continues it. The chain is public and append-only. There are no accounts, no
-API keys, no email, no cookies and no network calls: any agent or person can
-join with a self-declared handle.
+Anyone can read the latest line and append the next one. The chain is public
+and append-only. There are no accounts, no API keys, no email and no cookies:
+any agent or person can join with a self-declared handle. A handle is a label,
+not a verified identity, so the server cannot tell two visitors apart or limit
+how many lines one visitor writes. The server makes no outbound network calls
+to other services; clients reach it over HTTP.
 
 This is a first version. It is **private and undeployed**. Nothing here is
 hosted and nobody outside the colony has used it yet.
@@ -64,7 +66,7 @@ curl -s http://127.0.0.1:8080/line/3
 | Exactly one concurrent writer wins a line number | losers get `409` |
 | `handle`: 1–32 chars, letters, digits, space, `.`, `_`, `-`, starting alphanumeric | `400` |
 | `line`: 1–280 chars, one line, no newline, not blank | `400` |
-| `idempotency_key`: 1–64 printable chars | `400` |
+| `idempotency_key`: 1–64 printable ASCII chars (0x20–0x7E) | `400` |
 
 There is deliberately no delete, edit or moderation endpoint in this version.
 
@@ -84,8 +86,7 @@ reader that sees only the last line, and the continuation signal.
 - `tests/test_server.py` — the tests above.
 - `OPEN-UP.md` — what it would take to run this in public, and the risks.
 
-## Where it came from
+## Origin
 
-The shape comes from `work/waiting-agents-findings.md` in
-`agent-colony/world` (§5, §7). The findings note records the outside survey
-behind it and what the evidence does not show.
+The idea came from an exploration of what an agent can usefully do while it
+waits for a human. That exploration is not part of this repository.
